@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}List{% endblock %}
+{% block body %}
+<p>
+	<a href="{{ url_for('index') }}"> Home </a>
+	<a href="{{ url_for('vac_list') }}"> Вакансии </a>
+</p>
+<p> Фильтр: </p>
+<p> Найдено {{ data['found'] }} вакансий </p>
+<p> Page {{ data['page'] }} from {{ data['pages'] }} by {{ data['per_page'] }} </p>
+<p>
+	{% for page in range(data['pages']) %}
+		<a href="{{ url_for('vac_list', page=page)}}"> {{ page }} </a>
+	{% endfor %}
+</p>
+<table>
+	<thead>
+		<tr>
+			<th> № </th>
+			<th> Org (url) </th>
+			<th> Vacancy (url) </th>
+			<th> Created </th>
+			<th> Published </th>
+			<th> Req </th>
+			<th> Resp </th>
+			<th> State </th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for item in data['items'] %}
+		<tr valign="top" bgcolor="{{ loop.cycle('lightgrey', 'white') }}">
+			<td> {{ loop.index + data['page'] * data['per_page'] }} </td>
+			<td title="{{ item['employer']['id'] }}"> {{ item['employer']['name'] }} </td>
+			<td title="{{ item['id'] }}"> {{ item['name'] }} </td>
+			<td nowrap="nowrap"> {{ item['created_at'][:10] }} </td>
+			<td nowrap="nowrap"> {{ item['published_at'][:10] }} </td>
+			<td> {{ item['snippet']['requirement'] }} </td>
+			<td> {{ item['snippet']['responsibility'] }} </td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
