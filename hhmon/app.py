@@ -9,66 +9,55 @@ https://spb.hh.ru/vacancy/34597232
 https://spb.hh.ru/vacancy/34461767
 """
 # 1. imports
+# 1.1. std
 import os
-from typing import TypedDict, Union
-
+# 1.2. 3rd
+import addict
 from flask import Flask, request, render_template, redirect, url_for
 import requests
 from urllib.parse import urljoin
-# from attrdict import AttrDict
-
+# 1.3. local
 from . import hh
 
-# 2. consts
+
+# 3. consts
 DEBUG = True
 BASE_URL = 'https://api.hh.ru'  # api.hh.ru hh.ru spb.hh.ru
 RS_VACS = 'vacancies'
 RS_VAC = 'vacancy'
 AGENT = {'user-agent': 'wannajob/0.0.1 (wannajob@mail.ru)'}
 
-# 3. vars
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
-app.config['SECRET_KEY'] = 'you-will-never-guess'
-
-
-class Filter(TypedDict):
-    per_page: int  # 20 default; 100 max; ? items_on_page ?
-    search_period: int  # days B4; 30 max
-    area: int
-    employment: Union[None, str]  # None
-    schedule: Union[None, str]  # None
-    specialization: Union[None, str]  # None
-    clusters: bool  # F default
-    no_magic: bool  # F default
-    enable_snippets: bool  # T
-
-
-query_filter: Filter = {  # TODO: store in coockie
-    'per_page': 20,  # 20 default; 100 max; ? items_on_page ?
-    'search_period': 1,  # days B4; 30 max
+# 4. vars
+query_filter = addict.Dict({    # TODO: store in coockie
+    'per_page': 20,         # 20 default; 100 max; ? items_on_page ?
+    'search_period': 1,     # days B4; 30 max
     'area': 2,
     'employment': None,
     'schedule': None,
     'specialization': None,
     # 'clusters': 'false',	# F default
-    'no_magic': 'true',  # F default
+    'no_magic': 'true',     # F default
     'enable_snippets': 'true',
-}
-settings: Filter = {
+})
+settings = addict.Dict({
     'per_page': 20,
     'search_period': 3,
     'area': 2,
     'employment': None,
     'schedule': None,
     'specialization': None,
-    'no_magic': 'true',  # F default
+    'no_magic': 'true',     # F default
     'enable_snippets': 'true',
-}
+})
+
+# 5. flask entry point
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(__name__, template_folder=os.path.join(BASE_DIR, 'templates'))
+app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 
-# 4. utils
-def get_any(resource, any_id=None, payload={}):
+# 6. utils
+def get_any(resource, any_id=None, payload=None):
     """
     Get data from hh.ru
     @return
@@ -81,9 +70,10 @@ def get_any(resource, any_id=None, payload={}):
     return rsp
 
 
-# 5. views
+# 7. views
 @app.route('/', methods=['GET'])
 def index():
+    print(query_filter.per_page)
     return render_template('index.html')
 
 

@@ -37,6 +37,7 @@ setup(
     packages=('hhmon',),
     install_requires=[
         'Flask',
+        'requests',
     ],
     include_package_data=True,
     # use_scm_version=True,

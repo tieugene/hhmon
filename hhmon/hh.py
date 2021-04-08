@@ -5,6 +5,7 @@ Spec:
 """
 
 import json
+import os.path
 
 from flask_wtf import FlaskForm
 from wtforms import BooleanField, SelectField, SelectMultipleField
@@ -17,25 +18,26 @@ list_period = ((1, 1), (3, 3), (7, 7), (30, 30))
 list_empl = None
 list_sched = None
 list_spec = None
+DATA_DIR = 'json'
 
 
 def _load_jsons():
     global list_empl, list_sched, list_spec
     if (not list_empl) or (not list_empl):
         print("Loading dicts...")
-        json_data = json.load(open('dictionaries.json'))
+        json_data = json.load(open(os.path.join(DATA_DIR, 'dictionaries.json')))
         list_empl = list(map(lambda x: (x['id'], x['name']), json_data['employment']))
         list_sched = list(map(lambda x: (x['id'], x['name']), json_data['schedule']))
     if not list_spec:
         print("Loading specs...")
-        json_data = json.load(open('specializations.json'))
+        json_data = json.load(open(os.path.join(DATA_DIR, 'specializations.json')))
         list_spec = list()
         for i in json_data:
             list_spec.append((i['id'], i['name']))
             list_spec.extend(list(map(lambda j: (j['id'], j['name']), i['specializations'])))
 
 
-def _multi_checkbox(field, ul_class='', **kwargs):
+def _multi_checkbox(field, ul_class: str = '', **kwargs):
     kwargs.setdefault('type', 'checkbox')
     field_id = kwargs.pop('id', field.id)
     html = [u'<ul %s>' % html_params(id=field_id, class_=ul_class)]
@@ -50,7 +52,7 @@ def _multi_checkbox(field, ul_class='', **kwargs):
     return u''.join(html)
 
 
-def _nested_checkbox(field, ul_class='', **kwargs):
+def _nested_checkbox(field, ul_class: str = '', **kwargs):
     prev = True  # 1st level
     empty = True
     kwargs.setdefault('type', 'checkbox')

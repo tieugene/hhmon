@@ -1,3 +1,6 @@
 setuptools
 Flask
 Flask-WTF
+WTForms
+requests
+addict
