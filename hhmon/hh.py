@@ -22,6 +22,10 @@ DATA_DIR = 'json'
 
 
 def _load_jsons():
+    """
+    Load referencies from bundled json files
+    :return: None
+    """
     global list_empl, list_sched, list_spec
     if (not list_empl) or (not list_empl):
         print("Loading dicts...")
@@ -37,7 +41,14 @@ def _load_jsons():
             list_spec.extend(list(map(lambda j: (j['id'], j['name']), i['specializations'])))
 
 
-def _multi_checkbox(field, ul_class: str = '', **kwargs):
+def _multi_checkbox(field, ul_class: str = '', **kwargs) -> str:
+    """
+    Widget for multi-checkbox
+    :param field:
+    :param ul_class:
+    :param kwargs:
+    :return:
+    """
     kwargs.setdefault('type', 'checkbox')
     field_id = kwargs.pop('id', field.id)
     html = [u'<ul %s>' % html_params(id=field_id, class_=ul_class)]
@@ -52,7 +63,14 @@ def _multi_checkbox(field, ul_class: str = '', **kwargs):
     return u''.join(html)
 
 
-def _nested_checkbox(field, ul_class: str = '', **kwargs):
+def _nested_checkbox(field, ul_class: str = '', **kwargs) -> str:
+    """
+    Widget for nested checkboxes
+    :param field:
+    :param ul_class:
+    :param kwargs:
+    :return:
+    """
     prev = True  # 1st level
     empty = True
     kwargs.setdefault('type', 'checkbox')
@@ -84,7 +102,9 @@ def _nested_checkbox(field, ul_class: str = '', **kwargs):
 
 
 class FilterForm(FlaskForm):
-    """docstring for FilterForm"""
+    """
+    Form to set hh.ru queries filter
+    """
     like = BooleanField("Like a virgin: ")
     hide = BooleanField("Hide excluded vacs: ")
     sortby = SelectField("Sort by: ", choices=((1, 'так'), (2, 'сяк')))
@@ -105,3 +125,4 @@ class FilterForm(FlaskForm):
         self.sched.choices = list_sched
         self.spec.choices = list_spec
     # pprint(list_spec)
+

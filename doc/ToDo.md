@@ -1,8 +1,11 @@
 # ToDo
 
-## ToDo
+## Hot
 
-- vacancy storage object (transparent: inmem/file/k-v/any)
+- [ ] cfg by [flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/factory/)
+- [ ] vacancy storage object (transparent: inmem/file/k-v/any):
+  - manager (list, iterate, filter)
+  - objects (? (AdDict)): load/save/init/update:bool/history
 - save last refresh date (timestamp/unixtime)
 - list filter != query filter
 - Vac list:
@@ -33,5 +36,5 @@
 
 ## Done
 
-+ load cfg
-+ save filter to ~~cookie~~ session
++ [x] load cfg
++ [x] save filter to ~~cookie~~ session

@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block title %} Filter {% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/filter.js') }}"></script>
+{%  endblock %}
 {% block style %}
 	li {
 		list-style-type: none;

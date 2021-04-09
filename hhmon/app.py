@@ -33,15 +33,9 @@ BASE_URL = 'https://api.hh.ru'  # api.hh.ru hh.ru spb.hh.ru
 RS_VACS = 'vacancies'
 RS_VAC = 'vacancy'
 AGENT = {'user-agent': 'wannajob/0.0.1 (wannajob@mail.ru)'}
-
-# 4. vars
-SECRET_KEY = 'you-will-never-guess'
-VAR_DIR = BASE_DIR
-VACS_DIR = ''
-VACS_UPDATED = None     # last vacansies refreshed
-query_filter = addict.Dict({  # TODO: store in coockie
-    'per_page': 20,  # 20 default; 100 max; ? items_on_page ?
-    'search_period': 1,  # days B4; 30 max
+default_filter = addict.Dict({
+    'per_page': 20,
+    'search_period': 3,
     'area': 2,
     'employment': None,
     'schedule': None,
@@ -50,16 +44,12 @@ query_filter = addict.Dict({  # TODO: store in coockie
     'no_magic': 'true',  # F default
     'enable_snippets': 'true',
 })
-default_filter = addict.Dict({
-    'per_page': 20,
-    'search_period': 3,
-    'area': 2,
-    'employment': None,
-    'schedule': None,
-    'specialization': None,
-    'no_magic': 'true',  # F default
-    'enable_snippets': 'true',
-})
+
+# 4. vars
+SECRET_KEY = 'you-will-never-guess'
+VAR_DIR = BASE_DIR
+VACS_DIR = ''
+VACS_UPDATED = None     # last vacansies refreshed
 
 
 # 5. utils
@@ -87,10 +77,10 @@ def init_cfg():
         os.mkdir(VACS_DIR)  # FIXME: chk ok
 
 
-def load_filter(sess):
+def load_filter(sess) -> addict.Dict:
     """
     Load current filter from session or defaults
-    :param session:
+    :param sess: flask session object
     :return: dict
     """
     session_filter = sess.get('filter', {})
