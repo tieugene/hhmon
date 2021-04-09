@@ -12,10 +12,13 @@ HeadHunter.ru monitor
 
 See [`requirements.txt`](requirements.txt)
 
-## ToDo
+## Operations
 
-- TypedDict not works, chk:
-  - [~~AttrDict~~](https://github.com/bcj/AttrDict) (RIP)
-  - [Addict](https://github.com/mewwts/addict)
-  - [Munch](https://github.com/Infinidat/munch)
-  - [Monty](https://pythonhosted.org/monty/)
+- Vac list:
+  - List
+  - Set filter
+  - Set sort (Published > ...)
+  - Refresh
+  - Check exclude
+- List vacs
+- Refresh vacs
